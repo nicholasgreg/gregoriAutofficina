@@ -9,6 +9,9 @@ package com.mycompany.gregoriautofficina;
  *
  * @author Nicolas
  */
-public class Automezzo {
+public class Automezzo
+{
+    int codiceId;
+    String targa="";
     
 }
