@@ -20,6 +20,14 @@ public class Ordinatore
         v[posizione2]=c;
     }*/
     
+    public static void scambia(Revisione r[],int posizione1,int posizione2)
+    {
+        Revisione c;
+        c=r[posizione1];
+        r[posizione1]=r[posizione2];
+        r[posizione2]=c;
+    }
+    
     
      //scambia array di stringhe
     public static void scambia(String v[],int posizione1, int posizione2)
@@ -165,7 +173,26 @@ public class Ordinatore
         return ordinato;
     }*/
     
-    
+     public static Revisione[] selectionSortAutoPersonaDecrescente(Revisione[] a)
+    {
+        Revisione[] ordinato=new Revisione[a.length];
+        
+        
+        
+        for(int i=0;i<ordinato.length;i++)
+           ordinato[i]=a[i];
+        
+        
+        for (int i=0;i<ordinato.length-1;i++)
+        {
+            for(int j=i+1;j<ordinato.length;j++)
+            {
+                if(ordinato[j].getNome().compareToIgnoreCase(ordinato[i].getNome())>0 && ordinato[j].getCognome().compareToIgnoreCase(ordinato[i].getCognome())>0)
+                    scambia(ordinato,i,j);
+            }
+        }
+        return ordinato;
+    }
     
     //ordina arrey di stringhe in ordine alfabetico inverso
      public static String[] selectionSortDecrescente(String[] a)

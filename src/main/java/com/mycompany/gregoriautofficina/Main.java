@@ -13,6 +13,13 @@ public class Main
 {
     public static void main(String[] args) 
     {
-        System.out.println("Salve");
+        
+        Revisione r=new Revisione(0,"bbbbb","nik","Greg","cambio olio",(float)2.5,2001,1,1);
+        Autofficina a=new Autofficina();
+        
+        System.out.println(r.toString());
+        
+        System.out.println(a.aggiungiRevisione(r));
+        
     }
 }
