@@ -116,9 +116,9 @@ public class Revisione //controllare la classe localdate
         this.descrizioneIntervento = descrizioneIntervento;
     }
 
-    public void setData(LocalDate data) 
+    public void setData(int anno,int mese,int giorno) 
     {
-        this.data = data;
+        data=LocalDate.of(anno,mese,giorno);
     }
 
     public void setCosto(int costo) 

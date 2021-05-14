@@ -94,7 +94,7 @@ public class Autofficina
         
         for(int i=0;i<numeroRevPresenti;i++)
         {
-            if(elencoRevisioni[i].getData().isEqual(data))
+            if(elencoRevisioni[i].getData().isEqual(data)==true)
             {
                 revisione=elencoRevisioni[i];
                 revisioniGiorno[x]=revisione;

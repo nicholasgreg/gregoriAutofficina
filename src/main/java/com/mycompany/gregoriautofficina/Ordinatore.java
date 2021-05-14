@@ -187,7 +187,7 @@ public class Ordinatore
         {
             for(int j=i+1;j<ordinato.length;j++)
             {
-                if(ordinato[j].getNome().compareToIgnoreCase(ordinato[i].getNome())>0 && ordinato[j].getCognome().compareToIgnoreCase(ordinato[i].getCognome())>0)
+                if(ordinato[j].getData().compareTo(ordinato[i].getData())>0 )
                     scambia(ordinato,i,j);
             }
         }
