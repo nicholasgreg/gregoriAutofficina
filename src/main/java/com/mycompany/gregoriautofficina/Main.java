@@ -5,7 +5,11 @@
  */
 package com.mycompany.gregoriautofficina;
 
+import eccezioni.FileException;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -14,7 +18,7 @@ import java.util.Scanner;
  *
  * @author Nicolas
  */
-public class Main 
+public class Main implements Serializable
 {
     public static void main(String[] args) 
     {
@@ -33,8 +37,10 @@ public class Main
         LocalDate data;
         int giorno,mese,anno;
         float costo;
-        int id=0;
+        //int id=0;
         
+        String nomeFile="autofficina.txt";
+        String nomeFileBin="autofficina.bin";
         
         
         vociMenu[0]="esci";
@@ -45,6 +51,30 @@ public class Main
         vociMenu[5]="Visualizza revisoni auto persona in ordine inverso";
         vociMenu[6]="Esportare in formato CSV tutti gli interventi ";
         vociMenu[7]="Salva revisioni su file binario";
+        
+        try
+        {
+            FileInputStream f1=new FileInputStream(nomeFileBin);
+            ObjectInputStream reader=new ObjectInputStream(f1);
+            try
+            {
+                a=(Autofficina)reader.readObject();
+                reader.close();
+                System.out.println("\nLettura da file avvevuta correttamente");
+                        
+            }
+            catch(ClassNotFoundException ex)
+            {
+                reader.close();
+                System.out.println("\nErrore nella lettura");
+            }
+        }
+        catch(IOException ex)
+        {
+            System.out.println("\nImpossibile accedere al file");
+        }
+        
+        int id=a.getNumeroRevPresenti();
         
         Menu menu=new Menu(vociMenu);
         
@@ -81,7 +111,7 @@ public class Main
                     mese=tastiera.nextInt();
                     System.out.println("Anno --> ");
                     anno=tastiera.nextInt();
-                    data=LocalDate.of(anno, mese, giorno);
+                    //data=LocalDate.of(anno, mese, giorno);
                     System.out.println("Costo --> ");
                     costo=tastiera.nextFloat();
                     
@@ -106,7 +136,8 @@ public class Main
                     else
                       {
                            for(int i=0;i<elencoTarga.length;i++)
-                               System.out.println(elencoTarga[i]);
+                               if(elencoTarga[i]!=null)
+                                  System.out.println(elencoTarga[i]);
                            
                       }
                     
@@ -134,7 +165,8 @@ public class Main
                     else
                       {
                            for(int i=0;i<elencoGiorno.length;i++)
-                               System.out.println(elencoGiorno[i]);
+                               if(elencoGiorno[i]!=null)
+                                  System.out.println(elencoGiorno[i]);
                            
                       }
                     
@@ -156,6 +188,8 @@ public class Main
                 }
                 case 5:
                 {
+                    
+                    
                     Revisione[] elencoRevisioniPersona;
                     String nome1,cognome1;
                     
@@ -165,27 +199,68 @@ public class Main
                     cognome1=tastiera.nextLine();
                     
                     elencoRevisioniPersona=a.InterventiAutoPersonaDecrescente(nome1, cognome1);
+                        for(int i=0;i<elencoRevisioniPersona.length;i++)
+                        {
+                            System.out.println("CodiceId--> "+elencoRevisioniPersona[i].getCodiceId()+" Targa--> "+elencoRevisioniPersona[i].getTarga()+" Cognome--> "+elencoRevisioniPersona[i].getCognome()+" Nome--> "+elencoRevisioniPersona[i].getNome()+" Descrizione intervento--> "+elencoRevisioniPersona[i].getDescrizioneIntervento()+" Data--> "+elencoRevisioniPersona[i].getData()+" Costo--> "+elencoRevisioniPersona[i].getCosto());
+                        }
+                        System.out.println("premi un pulsante per continuare");
+                            tastiera.nextLine();  
                     
-                    if(elencoRevisioniPersona==null)
-                            System.out.println("nessuna revisione per la persona "+nome1+" "+cognome1);
-                    else
-                      {
-                           for(int i=0;i<elencoRevisioniPersona.length;i++)
-                               System.out.println(elencoRevisioniPersona[i]);
-                           
-                      }
+                    /*try
+                    {
+                        elencoRevisioniPersona=a.InterventiAutoPersonaDecrescente(nome1, cognome1);
+
+                        if(elencoRevisioniPersona==null)
+                                System.out.println("nessuna revisione per la persona "+nome1+" "+cognome1);
+                        else
+                          {
+                               for(int i=0;i<elencoRevisioniPersona.length;i++)
+                                   System.out.println(elencoRevisioniPersona[i]);
+
+                          }
+                    }
+                    catch(NullPointerException e1)
+                    {
+                        System.out.println("si è verificato un problema");
+                    }*/
+                    
                    
                     break;
                 }
                 case 6:
                 {
+                    try
+                        {
+                            a.salvaRevisione(nomeFile);
+                            System.out.println("salvataggio avvenuto correttamente");
+                        }
+                        catch(IOException e1)
+                        {
+                            System.out.println("impossibile accedere al file, le revisioni non sono state salvate");
+                        }
+                        catch(FileException e2)
+                        {
+                            System.out.println(e2.toString());
+                        }    
                     
                     
                     break;
                 }
                 case 7:
                 {
-                    
+                    try
+                        {
+                            a.salvaRevisioneBin(nomeFileBin);
+                            System.out.println("salvataggio avvenuto correttamente");
+                        }
+                        catch(IOException e1)
+                        {
+                            System.out.println("impossibile accedere al file binario, le revisioni non sono state salvate");
+                        }
+                        catch(FileException e2)
+                        {
+                            System.out.println(e2.toString());
+                        }    
                     
                     break;
                 }

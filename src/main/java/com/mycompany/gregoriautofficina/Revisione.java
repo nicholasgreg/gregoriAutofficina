@@ -5,6 +5,7 @@
  */
 package com.mycompany.gregoriautofficina;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 
@@ -12,7 +13,7 @@ import java.time.Month;
  *
  * @author Nicolas
  */
-public class Revisione //controllare la classe localdate
+public class Revisione implements Serializable
 {
     private int codiceId;
     private String targa;

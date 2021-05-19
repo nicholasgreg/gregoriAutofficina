@@ -5,13 +5,21 @@
  */
 package com.mycompany.gregoriautofficina;
 
+import eccezioni.FileException;
+import file.TextFile;
+import java.io.IOException;
 import java.time.LocalDate;
+import eccezioni.*;
+import file.TextFile;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  *
  * @author Nicolas
  */
-public class Autofficina 
+public class Autofficina implements Serializable
 {
     private Revisione[] elencoRevisioni;
     private static int NUM_MAX_REVISIONI=100;
@@ -49,15 +57,28 @@ public class Autofficina
         return numeroRevPresenti;
     }
 
-    public void setNumeroRevPresenti(int numeroRevPresenti) 
+    /*public void setNumeroRevPresenti(int numeroRevPresenti) 
     {
         this.numeroRevPresenti = numeroRevPresenti;
-    }
+    }*/
     
     public Revisione getRevisione(int posizione)
     {
         return elencoRevisioni[posizione];
     }
+    
+    public int getNumRevisioni()
+    {
+        int contatore=0;
+   
+        for(int i=0;i<NUM_MAX_REVISIONI;i++)
+        {
+            if(elencoRevisioni[i]!=null)
+                contatore++;
+        }
+        return contatore;
+    }
+    
     
     public int aggiungiRevisione(Revisione r)
     {
@@ -67,13 +88,18 @@ public class Autofficina
             
     }
     
+    public Revisione getRevisionePosizione(int posizione)
+    {
+        return elencoRevisioni[posizione];
+    }
+    
     public Revisione[] revisioniTarga(String targa)
     {
-        Revisione[] revisioniTarga=new Revisione[getNumeroRevPresenti()];
+        Revisione[] revisioniTarga=new Revisione[getNumRevisioni()];
         Revisione revisione;
         int x=0;
         
-        for(int i=0;i<numeroRevPresenti;i++)
+        for(int i=0;i<getNumRevisioni();i++)
         {
             if(elencoRevisioni[i].getTarga().compareToIgnoreCase(targa)==0)
             {
@@ -88,11 +114,11 @@ public class Autofficina
     
     public Revisione[] revisioniGiorno(LocalDate data)//controllare
     {
-        Revisione[] revisioniGiorno=new Revisione[getNumeroRevPresenti()];
+        Revisione[] revisioniGiorno=new Revisione[getNumRevisioni()];
         Revisione revisione;
         int x=0;
         
-        for(int i=0;i<numeroRevPresenti;i++)
+        for(int i=0;i<getNumRevisioni();i++)
         {
             if(elencoRevisioni[i].getData().isEqual(data)==true)
             {
@@ -108,8 +134,21 @@ public class Autofficina
     
     public int eliminaRevisione(int codice)
     {
-        Revisione r;
-        for (int i=0;i<numeroRevPresenti;i++)
+        for(int i=0;i<numeroRevPresenti;i++)
+            {
+                if (elencoRevisioni[i]!=null)
+                {
+                    if(elencoRevisioni[i].getCodiceId()==codice)
+                    {
+                        aggiornaPosizioneRevisione(i);
+                        return 0; 
+                    }
+                }
+            }
+        return -1;
+        
+        /*Revisione r;
+        for (int i=0;i<getNumRevisioni();i++)
         {
             if (elencoRevisioni[i]!=null)
             {
@@ -117,11 +156,12 @@ public class Autofficina
                 if (r.getCodiceId()==codice)
                 {
                     aggiornaPosizioneRevisione(i);
+                    numeroRevPresenti--;
                     return 0; 
                 }
             }
         }
-        return -1;
+        return -1;*/
     }
     
     private void aggiornaPosizioneRevisione(int posizione)
@@ -153,6 +193,32 @@ public class Autofficina
         return interventiAutoDecresc;
     }
             
+    public void salvaRevisione(String nomeFile) throws IOException, FileException
+    {
+        TextFile f1=new TextFile(nomeFile,'W');
+        Revisione revisione;
+        for(int i=0;i<numeroRevPresenti;i++)
+            {
+               revisione=getRevisionePosizione(i);
+                if(revisione!=null)
+                {
+                    f1.toFile(revisione.getCodiceId()+";"+revisione.getTarga()+";"+revisione.getNome()+";"+revisione.getCognome()+";"+revisione.getDescrizioneIntervento()+";"+revisione.getData()+";"+revisione.getCosto()+";");
+                }
+            }
+        f1.close();
+    }
+    
+    public void salvaRevisioneBin(String nomeFile) throws IOException, FileException
+    {
+        FileOutputStream f1=new FileOutputStream(nomeFile);
+        ObjectOutputStream writer=new ObjectOutputStream(f1);
+        writer.writeObject(this);
+        writer.flush();
+        writer.close();
+    }
+    
+    
+    
     
     
     

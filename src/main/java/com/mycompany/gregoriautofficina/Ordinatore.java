@@ -175,7 +175,16 @@ public class Ordinatore
     
      public static Revisione[] selectionSortAutoPersonaDecrescente(Revisione[] a)
     {
-        Revisione[] ordinato=new Revisione[a.length];
+        int c=0;
+        for(int i=0;i<a.length;i++)
+        {
+            if(a[i]!=null)
+                c++;
+        }
+        
+        
+        
+        Revisione[] ordinato=new Revisione[c];
         
         
         
@@ -187,7 +196,7 @@ public class Ordinatore
         {
             for(int j=i+1;j<ordinato.length;j++)
             {
-                if(ordinato[j].getData().compareTo(ordinato[i].getData())>0 )
+                if(ordinato[j].getData().isAfter(ordinato[i].getData()))
                     scambia(ordinato,i,j);
             }
         }
