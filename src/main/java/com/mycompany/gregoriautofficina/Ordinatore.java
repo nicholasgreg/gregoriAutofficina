@@ -183,10 +183,8 @@ public class Ordinatore
         }
         
         
-        
         Revisione[] ordinato=new Revisione[c];
-        
-        
+
         
         for(int i=0;i<ordinato.length;i++)
            ordinato[i]=a[i];

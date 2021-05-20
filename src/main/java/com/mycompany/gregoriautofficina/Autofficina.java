@@ -14,6 +14,8 @@ import file.TextFile;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.DateTimeException;
+import java.util.InputMismatchException;
 
 /**
  *
@@ -42,7 +44,7 @@ public class Autofficina implements Serializable
     }
     
 
-    public static int getNUM_MAX_REVISIONI() 
+    public int getNUM_MAX_REVISIONI() 
     {
         return NUM_MAX_REVISIONI;
     }
@@ -80,7 +82,7 @@ public class Autofficina implements Serializable
     }
     
     
-    public int aggiungiRevisione(Revisione r)
+    public int aggiungiRevisione(Revisione r) throws InputMismatchException
     {
             elencoRevisioni[numeroRevPresenti]=new Revisione(r);
             numeroRevPresenti++;
@@ -93,7 +95,7 @@ public class Autofficina implements Serializable
         return elencoRevisioni[posizione];
     }
     
-    public Revisione[] revisioniTarga(String targa)
+    public Revisione[] revisioniTarga(String targa) throws ArrayIndexOutOfBoundsException,InputMismatchException,EccezioneValoreNonEsistente
     {
         Revisione[] revisioniTarga=new Revisione[getNumRevisioni()];
         Revisione revisione;
@@ -107,12 +109,15 @@ public class Autofficina implements Serializable
                 revisioniTarga[x]=revisione;
                 x++;
             }
+            else
+                throw new EccezioneValoreNonEsistente();
                 
         }
         return revisioniTarga;
+        
     }
     
-    public Revisione[] revisioniGiorno(LocalDate data)//controllare
+    public Revisione[] revisioniGiorno(LocalDate data) throws DateTimeException, InputMismatchException,EccezioneValoreNonEsistente
     {
         Revisione[] revisioniGiorno=new Revisione[getNumRevisioni()];
         Revisione revisione;
@@ -126,13 +131,15 @@ public class Autofficina implements Serializable
                 revisioniGiorno[x]=revisione;
                 x++;
             }
+            else
+                throw new EccezioneValoreNonEsistente();
                 
         }
         return revisioniGiorno;
           
     }
     
-    public int eliminaRevisione(int codice)
+    public int eliminaRevisione(int codice) throws InputMismatchException,EccezioneValoreNonEsistente
     {
         for(int i=0;i<numeroRevPresenti;i++)
             {
@@ -143,6 +150,9 @@ public class Autofficina implements Serializable
                         aggiornaPosizioneRevisione(i);
                         return 0; 
                     }
+                    else
+                      throw new EccezioneValoreNonEsistente();
+                    
                 }
             }
         return -1;
@@ -174,7 +184,7 @@ public class Autofficina implements Serializable
         numeroRevPresenti--;
     }
     
-    public Revisione[] InterventiAutoPersonaDecrescente(String nome,String cognome)
+    public Revisione[] InterventiAutoPersonaDecrescente(String nome,String cognome) throws NullPointerException,ArrayIndexOutOfBoundsException,EccezioneValoreNonEsistente
     {
         Revisione[] interventiAutoDecresc=new Revisione[getNumeroRevPresenti()];
         Revisione revisione;
@@ -188,12 +198,14 @@ public class Autofficina implements Serializable
                 interventiAutoDecresc[x]=revisione;
                 x++;
             }
+            else
+                throw new EccezioneValoreNonEsistente();
         }
         interventiAutoDecresc=Ordinatore.selectionSortAutoPersonaDecrescente(interventiAutoDecresc);
         return interventiAutoDecresc;
     }
             
-    public void salvaRevisione(String nomeFile) throws IOException, FileException
+    public void salvaRevisione(String nomeFile) throws IOException,EccezioniPosizioneNonValida, FileException
     {
         TextFile f1=new TextFile(nomeFile,'W');
         Revisione revisione;
@@ -208,7 +220,7 @@ public class Autofficina implements Serializable
         f1.close();
     }
     
-    public void salvaRevisioneBin(String nomeFile) throws IOException, FileException
+    public void salvaRevisioneBin(String nomeFile) throws IOException,EccezioniPosizioneNonValida, FileException
     {
         FileOutputStream f1=new FileOutputStream(nomeFile);
         ObjectOutputStream writer=new ObjectOutputStream(f1);
