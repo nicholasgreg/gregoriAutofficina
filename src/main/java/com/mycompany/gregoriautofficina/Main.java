@@ -77,7 +77,7 @@ public class Main implements Serializable
             System.out.println("\nImpossibile accedere al file");
         }
         
-        int id=a.getNumeroRevPresenti();
+        //int id=a.getNumeroRevPresenti();
         
         Menu menu=new Menu(vociMenu);
         
@@ -85,6 +85,9 @@ public class Main implements Serializable
         {
             try
             {
+                    int id=a.getCodice(a.getNumeroRevPresenti()-1);
+                    
+                    
                     //System.out.println("Premi un tasto per continuare...");
                     tastiera.nextLine();
                     sceltaUtente=menu.sceltaMenu();
@@ -129,9 +132,10 @@ public class Main implements Serializable
                                 //data=LocalDate.of(anno, mese, giorno);
                                 System.out.println("Costo --> ");
                                 costo=tastiera.nextFloat();
-
-                                revisione=new Revisione(id,targa,nome,cognome,descrizioneIntervento,costo,anno,mese,giorno);
+                                
                                 id++;
+                                revisione=new Revisione(id,targa,nome,cognome,descrizioneIntervento,costo,anno,mese,giorno);
+                                
                                 a.aggiungiRevisione(revisione);
 
                                 break;
@@ -159,11 +163,15 @@ public class Main implements Serializable
                                 
                                        for(int i=0;i<elencoTarga.length;i++)
                                        {
+                                           if(elencoTarga[0]==null)
+                                               System.out.println("nessuna revisione per la targa "+targa1);
                                            if(elencoTarga[i]!=null)
                                               System.out.println(elencoTarga[i]);
-                                           else
-                                               System.out.println("nessuna revisione per la targa "+targa1);
+                                           else 
+                                           {
                                                break;
+                                           }
+                                               
                                            
                                        }
                              break;

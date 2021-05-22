@@ -103,6 +103,18 @@ public class Autofficina implements Serializable
         return elencoRevisioni[posizione];
     }
     /**
+     * Metodo che restituisce il codice identificativo dell'oggetto in posizione posizione
+     * inserendo la posizione restituisce il valore del codice identificativo dell'oggetto in posizione posizione
+     * @param posizione è la posizione in cui voglio vedere il codice identificativo
+     * @return il codice identificativo dell'oggetto in posizione posizione dell'array
+     * 
+     */
+    public int getCodice(int posizione)
+    {
+         return elencoRevisioni[posizione].getCodiceId();  
+    }
+    
+    /**
      * Metodo getter del numero delle revisioni presenti con valore diverso da null
      * Ci permette di visualizzare il numero di revisioni presenti nell'array con contenuto diverso da null
      * @return numero di revisioni presenti nell'array con valore diverso da null
