@@ -1,7 +1,5 @@
-0;a;a;a;a;2001-01-01;23.0;
-2;a;a;aa;a;2001-01-01;1.0;
-3;b;b;b;b;2002-02-02;22.0;
-4;a;a;a;a;2001-01-01;1.0;
-5;a;aa;a;a;2003-02-01;3.0;
-6;a;a;a;a;2005-01-01;2.0;
-7;b;b;b;b;2005-05-05;25.0;
+0;abc;nicholas;gregori;cambio catena;2001-01-01;12.0;
+2;fgh;mario;marioli;regolazione cambio e frizione;2017-06-25;250.0;
+3;abc;nicholas;gregori;cambio ammortizzatori;2005-12-12;123.0;
+4;arr;aldo;baglio;cambio pastiglie freni;2019-08-26;55.0;
+5;jdk;laura;orsati;revisione annuale;2001-01-01;125.0;

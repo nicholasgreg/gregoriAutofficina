@@ -85,7 +85,16 @@ public class Main implements Serializable
         {
             try
             {
-                    int id=a.getCodice(a.getNumeroRevPresenti()-1);
+                    int id;
+                    if(a.getNumeroRevPresenti()>0)
+                    {
+                       id=a.getCodice(a.getNumeroRevPresenti()-1); 
+                    }
+                    else
+                    {
+                        id=-1;
+                    }
+                    
                     
                     
                     //System.out.println("Premi un tasto per continuare...");
@@ -396,8 +405,17 @@ public class Main implements Serializable
             {
                 tastiera.nextLine();
                 System.out.println("l'input non è corretto");
-            }      
-            
+            }   
+            catch(ArrayIndexOutOfBoundsException ex)
+            {
+                tastiera.nextLine();
+                System.out.println("Si è verificato un problema");
+            } 
+            catch(DateTimeException ex)
+            {
+                tastiera.nextLine();
+                System.out.println("l'inserimento della data non è corretto");
+            }
             
             
             
